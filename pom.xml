@@ -22,8 +22,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
         <skipTests>false</skipTests>
-        <skipITs>${skipTests}</skipITs>
         <skipUTs>${skipTests}</skipUTs>
+        <includedTests>*IT</includedTests>
 	</properties>
 
 	<dependencies>
@@ -81,10 +81,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.robsonbittencourt</groupId>
-            <artifactId>mokona</artifactId>
-            <version>0.1.0</version>
-            <scope>test</scope>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit4</artifactId>
+            <version>2.8.1</version>
         </dependency>
     </dependencies>
 	
@@ -101,21 +100,42 @@
                 <version>2.20</version>
                 <configuration>
                     <skipTests>${skipUTs}</skipTests>
+                    <excludes>
+                        <exclude>*UiTest</exclude>
+                    </excludes>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>io.qameta.allure.junit4.AllureJunit4</value>
+                        </property>
+                    </properties>
+                    <systemProperties>
+                        <allure.results.directory>${project.basedir}/target/allure-results</allure.results.directory>
+                    </systemProperties>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.9</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.20</version>
-                <configuration>
-                    <includes>
-                        <include>**/*IT.java</include>
-                    </includes>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <skipTests>${skipTests}</skipTests>
-                    <skipITs>${skipITs}</skipITs>
-                </configuration>
                 <executions>
                     <execution>
                         <id>failsafe-integration-tests</id>
@@ -126,6 +146,32 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skipTests>${skipTests}</skipTests>
+                    <includes>
+                        <include>${includedTests}</include>
+                    </includes>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>io.qameta.allure.junit4.AllureJunit4</value>
+                        </property>
+                    </properties>
+                    <systemProperties>
+                        <allure.results.directory>${project.basedir}/target/allure-results</allure.results.directory>
+                    </systemProperties>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <plugin>
@@ -142,7 +188,7 @@
                         <configuration>
                             <sources>
                                 <source>src/it/java</source>
-                                <source>src/ui-test</source>
+                                <source>src/ui-test/com/rbittencourt/ui</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -150,4 +196,24 @@
             </plugin>
 		</plugins>
 	</build>
+
+    <profiles>
+        <profile>
+            <id>it-tests</id>
+            <properties>
+                <skipTests>false</skipTests>
+                <skipUTs>true</skipUTs>
+                <includedTests>*IT</includedTests>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>ui-tests</id>
+            <properties>
+                <skipTests>false</skipTests>
+                <skipUTs>true</skipUTs>
+                <includedTests>*UiTest</includedTests>
+            </properties>
+        </profile>
+    </profiles>
 </project>

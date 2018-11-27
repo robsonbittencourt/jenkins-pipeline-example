@@ -10,7 +10,7 @@ import com.rbittencourt.ui.page.ViewProductPage;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProductTest {
+public class ProductUiTest {
 
     private static WebDriver driver;
 
@@ -33,7 +33,7 @@ public class ProductTest {
     @Test
     public void shouldCreateProduct() {
         // for is just for demonstration
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             String description = "ball";
 
             ProductListPage productListPage = new ProductListPage().goTo();
@@ -48,7 +48,7 @@ public class ProductTest {
     @Test
     public void shouldEditProduct() {
         // for is just for demonstration
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             String description = "shoe";
             String newDescription = "new shoe";
 
