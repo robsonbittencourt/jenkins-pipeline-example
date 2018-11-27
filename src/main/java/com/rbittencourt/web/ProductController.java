@@ -1,4 +1,4 @@
-package com.rbittencourt.controllers;
+package com.rbittencourt.web;
 
 import com.rbittencourt.domain.Product;
 import com.rbittencourt.services.ProductService;

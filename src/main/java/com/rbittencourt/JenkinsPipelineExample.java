@@ -9,4 +9,5 @@ public class JenkinsPipelineExample {
     public static void main(String[] args) {
         SpringApplication.run(JenkinsPipelineExample.class, args);
     }
+
 }
