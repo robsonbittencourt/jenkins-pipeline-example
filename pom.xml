@@ -21,10 +21,12 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <skipTests>false</skipTests>
         <skipUTs>${skipTests}</skipUTs>
         <includedTests>*IT</includedTests>
-	</properties>
+    </properties>
 
 	<dependencies>
 		<dependency>
@@ -105,7 +107,7 @@
                     </excludes>
                     <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                         ${argLine} -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                     <properties>
                         <property>
@@ -153,7 +155,7 @@
                     </includes>
                     <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        ${argLine} -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                     <properties>
                         <property>
@@ -172,6 +174,26 @@
                         <version>${aspectj.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -214,6 +236,23 @@
                 <skipUTs>true</skipUTs>
                 <includedTests>*UiTest</includedTests>
             </properties>
+        </profile>
+
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <skipTests>false</skipTests>
+                <skipUTs>false</skipUTs>
+                <includedTests>*IT</includedTests>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

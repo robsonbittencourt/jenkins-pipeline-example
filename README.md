@@ -12,3 +12,6 @@
 
 ### Show Allure Report
 ```mvn allure:serve```
+
+### Run unit tests, integration tests and Sonarqube Analisys 
+```mvn verify -Psonar```
