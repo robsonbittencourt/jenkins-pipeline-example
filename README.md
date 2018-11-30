@@ -15,3 +15,8 @@
 
 ### Run unit tests, integration tests and Sonarqube Analisys 
 ```mvn verify -Psonar```
+
+
+### Docker compose
+docker pull elgalu/selenium
+docker-compose up -d

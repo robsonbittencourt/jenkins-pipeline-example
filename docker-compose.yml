@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+
+  app-hml:
+    image: robsonbittencourt/jenkins-pipeline-example:hml-1.0.0
+    container_name: app-hml
+    ports:
+      - 8085:8085
+    networks:
+      - default
+
+  app-prd:
+    image: robsonbittencourt/jenkins-pipeline-example:prd-1.0.0
+    container_name: app-prd
+    ports:
+      - 8090:8090
+    networks:
+      - default
+
+    jenkins:
+      image: jenkins/jenkins:lts
+      container_name: jenkins
+      volumes:
+        - jenkins_home:/var/jenkins_home
+      ports:
+        - 8080:8080
+        - 50000:50000
+      networks:
+        - default
+
+    sonar:
+      image: sonarqube
+      container_name: sonarqube
+      ports:
+        - 9000:9000
+        - 9092:9092
+      networks:
+        - default
+
+  zalenium:
+    image: dosel/zalenium
+    container_name: zalenium
+    hostname: zalenium
+    tty: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    ports:
+      - 4444:4444
+    command: >
+      start --desiredContainers 1
+            --maxDockerSeleniumContainers 2
+            --screenWidth 1200 --screenHeight 800
+            --timeZone "America/SaoPaulo"
+            --videoRecordingEnabled false
+    environment:
+      - ZALENIUM_EXTRA_JVM_PARAMS=-Dwebdriver.http.factory=apache
+    networks:
+      - default
+
+volumes:
+  jenkins_home: {}
+
+networks:
+  default:
+    driver: bridge
