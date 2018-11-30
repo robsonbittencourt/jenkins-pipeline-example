@@ -166,6 +166,8 @@
                     <systemProperties>
                         <allure.results.directory>${project.basedir}/target/allure-results</allure.results.directory>
                     </systemProperties>
+                    <parallel>classes</parallel>
+                    <threadCount>2</threadCount>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -210,7 +212,7 @@
                         <configuration>
                             <sources>
                                 <source>src/it/java</source>
-                                <source>src/ui-test/com/rbittencourt/ui</source>
+                                <source>src/ui-test</source>
                             </sources>
                         </configuration>
                     </execution>

@@ -1,17 +1,23 @@
 package com.rbittencourt.ui.page;
 
-import com.rbittencourt.ui.driver.DriverFactory;
+import org.openqa.selenium.WebDriver;
 
 public class Menu {
 
+    private WebDriver driver;
+
+    public Menu(WebDriver driver) {
+        this.driver = driver;
+    }
+
     public ProductListPage goToListPage() {
-        DriverFactory.getInstance().get("http://localhost:8080");
-        return new ProductListPage();
+        this.driver.get("http://app-hml:8085");
+        return new ProductListPage(this.driver);
     }
 
     public ProductFormPage goToCreatePage() {
-        DriverFactory.getInstance().get("http://localhost:8080/product/new");
-        return new ProductFormPage();
+        this.driver.get("http://app-hml:8085/product/new");
+        return new ProductFormPage(this.driver);
     }
 
 }

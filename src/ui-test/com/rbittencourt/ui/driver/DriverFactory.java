@@ -1,23 +1,28 @@
 package com.rbittencourt.ui.driver;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class DriverFactory {
 
     public static WebDriver driver;
 
     public static WebDriver getInstance() {
-        if (driver == null) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("disable-infobars");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("disable-infobars");
 
-            driver = new ChromeDriver(options);
-
-            driver.manage().window().maximize();
+        try {
+            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
 
+        driver.manage().window().maximize();
+    
         return driver;
     }
 
