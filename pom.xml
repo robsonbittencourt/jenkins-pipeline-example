@@ -101,6 +101,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
                 <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                     <skipTests>${skipUTs}</skipTests>
                     <excludes>
                         <exclude>*UiTest</exclude>
@@ -149,6 +150,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                     <skipTests>${skipTests}</skipTests>
                     <includes>
                         <include>${includedTests}</include>
