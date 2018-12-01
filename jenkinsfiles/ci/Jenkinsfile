@@ -1,0 +1,52 @@
+node{
+
+  git branch: "master", url: "file:///var/jenkins_home/git" 
+
+  stage('Test') {
+    parallel 'unit': {
+        stage('Unit Tests') {
+            withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+                sh "mvn test"
+            }
+        }
+    }, 'integration': {
+        stage('Integration Tests') {
+            withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+                sh "mvn verify -Pit-tests"
+            }
+        }
+    }  
+  }
+
+  stage ('Sonar') {
+    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+        sh "mvn sonar:sonar -Dsonar.host.url=http://sonar:9000"
+    }
+  }
+  
+  stage ('Build Jar') {
+    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+        sh "mvn clean package -Dmaven.test.skip=true"
+    }
+  }
+
+  stage ('Build Image') {
+    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+        VERSION = sh(script:"printf 'VER\t\${project.version}' | mvn help:evaluate | grep '^VER' | cut -f2", returnStdout:true).trim()
+
+        sh "docker build --build-arg version=${VERSION} \
+            -t localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv \
+            -t localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv-${VERSION} . ;"
+    }
+  }
+
+  stage ('Deploy image') {
+    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+        VERSION = sh(script:"printf 'VER\t\${project.version}' | mvn help:evaluate | grep '^VER' | cut -f2", returnStdout:true).trim()
+
+        sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv ;"
+        sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv-${VERSION} ;"
+    }
+  }
+  
+}

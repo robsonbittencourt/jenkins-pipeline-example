@@ -1,0 +1,21 @@
+node{
+
+  git branch: "master", url: "file:///var/jenkins_home/git" 
+
+  stage ('Build HML image') {
+    sh "docker tag localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
+    sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml ;"
+  }
+
+  stage ('Ui Tests') {
+    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+        sh "mvn verify -Pui-tests"
+    }   
+  }
+
+  stage ('Build PRD image') {
+    sh "docker tag localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml localhost:5000/robsonbittencourt/jenkins-pipeline-example:prd"
+    sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:prd ;"
+  }
+
+}

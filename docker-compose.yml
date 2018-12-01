@@ -2,19 +2,27 @@ version: '3.4'
 
 services:
 
+  app-dsv:
+    image: robsonbittencourt/jenkins-pipeline-example:dsv
+    container_name: app-dsv
+    ports:
+      - 8081:8081
+    
   app-hml:
-    image: robsonbittencourt/jenkins-pipeline-example:hml-1.0.0
+    image: robsonbittencourt/jenkins-pipeline-example:hml
     container_name: app-hml
     ports:
       - 8085:8085
+    environment:
+      - SPRING_PROFILES_ACTIVE=hml
 
   app-prd:
-    image: robsonbittencourt/jenkins-pipeline-example:prd-1.0.0
+    image: robsonbittencourt/jenkins-pipeline-example:prd
     container_name: app-prd
     ports:
       - 8090:8090
-    networks:
-      - default
+    environment:
+      - SPRING_PROFILES_ACTIVE=prd
 
   jenkins:
     image: robsonbittencourt/jenkins-with-docker:1.0.0
@@ -22,9 +30,13 @@ services:
     volumes:
       - /var/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.m2:/root/.m2
+      - ~/dev/jenkins-pipeline-example:/var/jenkins_home/git:ro 
     ports:
       - 8080:8080
       - 50000:50000
+    environment:
+      - JAVA_OPTS=-Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';
 
   sonar:
     image: sonarqube
@@ -32,9 +44,7 @@ services:
     ports:
       - 9000:9000
       - 9092:9092
-    networks:
-      - default
-
+  
   zalenium:
     image: dosel/zalenium
     container_name: zalenium
@@ -53,4 +63,9 @@ services:
             --videoRecordingEnabled false
     environment:
       - ZALENIUM_EXTRA_JVM_PARAMS=-Dwebdriver.http.factory=apache
-
+  
+  docker-registry:
+    image: registry:2
+    container_name: registry
+    ports:
+      - 5000:5000
