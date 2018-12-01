@@ -248,6 +248,7 @@
                 <skipTests>false</skipTests>
                 <skipUTs>false</skipUTs>
                 <includedTests>*IT</includedTests>
+                <sonar.host.url>http://sonar:9000</sonar.host.url>
             </properties>
             <build>
                 <plugins>
