@@ -170,6 +170,7 @@
                     </systemProperties>
                     <parallel>classes</parallel>
                     <threadCount>2</threadCount>
+                    <forkCount>0</forkCount>
                 </configuration>
                 <dependencies>
                     <dependency>
