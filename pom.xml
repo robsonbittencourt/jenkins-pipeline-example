@@ -108,7 +108,7 @@
                     </excludes>
                     <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
-                         ${argLine} -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                         ${argLine} -Dfile.encoding=UTF-8 -Xms1024m -Xmx1G -XX:PermSize=1024m -noverify -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                     <properties>
                         <property>
@@ -157,7 +157,7 @@
                     </includes>
                     <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
-                        ${argLine} -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        ${argLine} -Dfile.encoding=UTF-8 -Xms1024m -Xmx1G -XX:PermSize=1024m -noverify -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                     <properties>
                         <property>
