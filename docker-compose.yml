@@ -7,16 +7,14 @@ services:
     container_name: app-hml
     ports:
       - 8085:8085
+
+  app-prd:
+    image: robsonbittencourt/jenkins-pipeline-example:prd-1.0.0
+    container_name: app-prd
+    ports:
+      - 8090:8090
     networks:
       - default
-
-  # app-prd:
-  #   image: robsonbittencourt/jenkins-pipeline-example:prd-1.0.0
-  #   container_name: app-prd
-  #   ports:
-  #     - 8090:8090
-  #   networks:
-  #     - default
 
   jenkins:
     image: robsonbittencourt/jenkins-with-docker:1.0.0
@@ -27,19 +25,15 @@ services:
     ports:
       - 8080:8080
       - 50000:50000
-    external_links:
-      - zalenium
+
+  sonar:
+    image: sonarqube
+    container_name: sonarqube
+    ports:
+      - 9000:9000
+      - 9092:9092
     networks:
       - default
-
-  # sonar:
-  #   image: sonarqube
-  #   container_name: sonarqube
-  #   ports:
-  #     - 9000:9000
-  #     - 9092:9092
-  #   networks:
-  #     - default
 
   zalenium:
     image: dosel/zalenium
@@ -59,9 +53,4 @@ services:
             --videoRecordingEnabled false
     environment:
       - ZALENIUM_EXTRA_JVM_PARAMS=-Dwebdriver.http.factory=apache
-    networks:
-      - default
 
-networks:
-  default:
-    driver: bridge
