@@ -34,7 +34,7 @@ public class ProductUiCreateUiTest {
     @Test
     public void shouldCreateProduct() {
         // for is just for demonstration
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 100; i++) {
             String description = "ball";
 
             ProductListPage productListPage = new ProductListPage(driver).goTo();
