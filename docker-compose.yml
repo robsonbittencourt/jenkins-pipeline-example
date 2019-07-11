@@ -25,7 +25,7 @@ services:
       - SPRING_PROFILES_ACTIVE=prd
 
   jenkins:
-    image: robsonbittencourt/jenkins-with-docker:1.0.0
+    image: robsonbittencourt/jenkins-with-docker
     container_name: jenkins
     volumes:
       - /var/jenkins_home:/var/jenkins_home
