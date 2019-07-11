@@ -31,20 +31,11 @@ node{
   }
 
   stage ('Build Image') {
-    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
-        VERSION = sh(script:"printf 'VER\t\${project.version}' | mvn help:evaluate | grep '^VER' | cut -f2", returnStdout:true).trim()
-
-        sh "docker build --build-arg version=${VERSION} \
-            -t localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv-${VERSION} . ;"
-    }
+    sh "docker build -t localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv . ;"
   }
 
   stage ('Deploy image') {
-    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
-        VERSION = sh(script:"printf 'VER\t\${project.version}' | mvn help:evaluate | grep '^VER' | cut -f2", returnStdout:true).trim()
-
-        sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv-${VERSION} ;"
-    }
+    sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv ;"
   }
   
 }
