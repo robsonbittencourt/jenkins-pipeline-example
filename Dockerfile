@@ -4,6 +4,6 @@ USER root
 
 ARG version
 
-ENV JAVA_APP_JAR=jenkins-pipeline-example-$version.jar
+ENV JAVA_APP_JAR=jenkins-pipeline-example.jar
 
 ADD target/$JAVA_APP_JAR /deployments

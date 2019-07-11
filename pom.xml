@@ -7,7 +7,7 @@
 	<artifactId>jenkins-pipeline-example</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
-
+    
 	<name>Jenkins Pipeline Example</name>
 	<description>Exemplo de uma aplicação utilizando Jenkins Pipeline</description>
 
@@ -90,6 +90,7 @@
     </dependencies>
 	
 	<build>
+        <finalName>jenkins-pipeline-example</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
