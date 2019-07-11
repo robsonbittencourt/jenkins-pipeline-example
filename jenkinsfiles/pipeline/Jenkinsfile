@@ -2,9 +2,14 @@ node{
 
   git branch: "master", url: "file:///var/jenkins_home/git" 
 
-  stage ('Build HML image') {
+  stage ('Build and Deploy HML image') {
     sh "docker tag localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
     sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml ;"
+  }
+
+  stage ('Deploy app in HML') {
+    sh "docker rm -f app-hml"
+    sh "docker run -n app-hml -p 8085:8085 localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
   }
 
   stage ('Ui Tests') {
@@ -13,9 +18,14 @@ node{
     }   
   }
 
-  stage ('Build PRD image') {
+  stage ('Build and Deploy PRD image') {
     sh "docker tag localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml localhost:5000/robsonbittencourt/jenkins-pipeline-example:prd"
     sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:prd ;"
+  }
+
+  stage ('Deploy app in PRD') {
+    sh "docker rm -f app-hml"
+    sh "docker run --name app-hml localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
   }
 
 }
