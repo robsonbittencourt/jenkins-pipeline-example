@@ -3,13 +3,13 @@ version: '3.4'
 services:
 
   app-dsv:
-    image: robsonbittencourt/jenkins-pipeline-example:dsv
+    image: localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv
     container_name: app-dsv
     ports:
       - 8081:8081
     
   app-hml:
-    image: robsonbittencourt/jenkins-pipeline-example:hml
+    image: localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml
     container_name: app-hml
     ports:
       - 8085:8085
@@ -17,7 +17,7 @@ services:
       - SPRING_PROFILES_ACTIVE=hml
 
   app-prd:
-    image: robsonbittencourt/jenkins-pipeline-example:prd
+    image: localhost:5000/robsonbittencourt/jenkins-pipeline-example:prd
     container_name: app-prd
     ports:
       - 8090:8090
