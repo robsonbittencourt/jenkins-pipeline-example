@@ -18,9 +18,14 @@
 
 
 ### Docker compose
+
+```
 docker pull elgalu/selenium
+
 docker-compose up -d
+```
 
 ### Jenkins configurations
-Habilitar o maven em tools
-Instalar o plugin Pipeline Maven Plugin
+
+- Habilitar o maven em tools
+- Instalar o plugin Pipeline Maven Plugin
