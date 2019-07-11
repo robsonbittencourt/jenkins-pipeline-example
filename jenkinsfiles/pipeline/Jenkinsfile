@@ -1,31 +1,36 @@
 node{
 
-  git branch: "master", url: "file:///var/jenkins_home/git" 
+  git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example" 
 
   stage ('Build and Deploy HML image') {
-    sh "docker tag localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
-    sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml ;"
+    sh "docker tag robsonbittencourt/jenkins-pipeline-example:dsv robsonbittencourt/jenkins-pipeline-example:hml"
+      
+    docker.withRegistry("", "registryCredential") {
+      sh "docker push robsonbittencourt/jenkins-pipeline-example:hml"
+    }    
   }
 
   stage ('Deploy app in HML') {
-    sh "docker rm -f app-hml"
-    sh "docker run --name app-hml -p 8085:8085 -d localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
+    sh "docker rm -f app-hml &>/dev/null && sleep 1 && docker run --name=app-hml -p 8085:8085 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=hml -d robsonbittencourt/jenkins-pipeline-example:hml"
   }
 
-  stage ('Ui Tests') {
+  stage ('UI Tests') {
     withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+        sh "sleep 5"
         sh "mvn verify -Pui-tests"
     }   
   }
 
   stage ('Build and Deploy PRD image') {
-    sh "docker tag localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml localhost:5000/robsonbittencourt/jenkins-pipeline-example:prd"
-    sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:prd ;"
+    sh "docker tag robsonbittencourt/jenkins-pipeline-example:hml robsonbittencourt/jenkins-pipeline-example:prd"
+
+    docker.withRegistry("", "registryCredential") {
+      sh "docker push robsonbittencourt/jenkins-pipeline-example:prd"
+    }    
   }
 
   stage ('Deploy app in PRD') {
-    sh "docker rm -f app-hml"
-    sh "docker run --name app-hml localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
+    sh "docker rm -f app-prd &>/dev/null && sleep 1 && docker run --name=app-prd -p 8090:8090 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=prd -d robsonbittencourt/jenkins-pipeline-example:prd"
   }
 
 }

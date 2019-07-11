@@ -25,7 +25,14 @@ docker pull elgalu/selenium
 docker-compose up -d
 ```
 
+### Docker Swarm
+
+```
+To up - docker stack deploy --compose-file docker-compose.yml stackdemo
+
+To down - docker stack rm stackdemo
+```
+
 ### Jenkins configurations
 
-- Habilitar o maven em tools
-- Instalar o plugin Pipeline Maven Plugin
+- Add your Dockerhub user and pass in credential with ID 'registryCredential' in Jenkins

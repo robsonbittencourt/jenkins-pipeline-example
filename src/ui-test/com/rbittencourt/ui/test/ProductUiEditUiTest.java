@@ -30,7 +30,7 @@ public class ProductUiEditUiTest {
     @Test
     public void shouldNavigateBetweenPagesUsingMenu() {
         // for is just for demonstration
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             ProductListPage productListPage = new ProductListPage(driver).goTo();
             productListPage.getMenu().goToCreatePage();
             productListPage = productListPage.getMenu().goToListPage();

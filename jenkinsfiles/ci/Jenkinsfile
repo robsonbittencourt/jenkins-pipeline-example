@@ -1,41 +1,35 @@
 node{
 
-  git branch: "master", url: "file:///var/jenkins_home/git" 
+  git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example" 
 
-  stage('Test') {
-    parallel 'unit': {
-        stage('Unit Tests') {
-            withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
-                sh "mvn test"
-            }
-        }
-    }, 'integration': {
-        stage('Integration Tests') {
-            withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
-                sh "mvn verify -Pit-tests"
-            }
-        }
-    }  
+  stage('Unit Tests') {
+    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+        sh "mvn test"
+    }
   }
 
-  stage ('Sonar') {
+  stage ('Sonarqube') {
     withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
         sh "mvn sonar:sonar -Dsonar.host.url=http://sonar:9000"
     }
   }
-  
+
   stage ('Build Jar') {
     withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
         sh "mvn clean package -Dmaven.test.skip=true"
     }
   }
 
-  stage ('Build Image') {
-    sh "docker build -t localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv . ;"
+  stage ('Build and Deploy DSV image') {
+    sh "docker build -t robsonbittencourt/jenkins-pipeline-example:dsv ."
+  
+    docker.withRegistry("", "registryCredential") {
+      sh "docker push robsonbittencourt/jenkins-pipeline-example:dsv"
+    }   
   }
 
-  stage ('Deploy image') {
-    sh "docker push localhost:5000/robsonbittencourt/jenkins-pipeline-example:dsv ;"
+  stage ('Deploy app in DSV') {
+    sh "docker rm -f app-dsv &>/dev/null && sleep 1 && docker run --name=app-dsv -p 8081:8081 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=dsv -d robsonbittencourt/jenkins-pipeline-example:dsv"
   }
   
 }
