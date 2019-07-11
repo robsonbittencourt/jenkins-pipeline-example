@@ -9,7 +9,7 @@ node{
 
   stage ('Deploy app in HML') {
     sh "docker rm -f app-hml"
-    sh "docker run -n app-hml -p 8085:8085 localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
+    sh "docker run --name app-hml -p 8085:8085 -d localhost:5000/robsonbittencourt/jenkins-pipeline-example:hml"
   }
 
   stage ('Ui Tests') {
