@@ -12,7 +12,7 @@ node{
   }
 
   stage ('UI Tests') {
-    withEnv(["JAVA_HOME=${ tool "java-8" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+    withEnv(["JAVA_HOME=${ tool "java-11" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
         sh "sleep 5"
         sh "mvn verify -Pui-tests"
     }   
