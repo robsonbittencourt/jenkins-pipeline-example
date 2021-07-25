@@ -4,10 +4,7 @@ node{
 
   stage ('Build and Deploy HML image') {
     sh "docker tag localhost:5000/jenkins-pipeline-example:dsv localhost:5000/jenkins-pipeline-example:hml"
-      
-    docker.withRegistry("", "registryCredential") {
-      sh "docker push localhost:5000/jenkins-pipeline-example:hml"
-    }    
+    sh "docker push localhost:5000/jenkins-pipeline-example:hml"
   }
 
   stage ('Deploy app in HML') {
@@ -23,10 +20,7 @@ node{
 
   stage ('Build and Deploy PRD image') {
     sh "docker tag localhost:5000/jenkins-pipeline-example:hml localhost:5000/jenkins-pipeline-example:prd"
-
-    docker.withRegistry("", "registryCredential") {
-      sh "docker push localhost:5000/jenkins-pipeline-example:prd"
-    }    
+    sh "docker push localhost:5000/jenkins-pipeline-example:prd"
   }
 
   stage ('Deploy app in PRD') {
