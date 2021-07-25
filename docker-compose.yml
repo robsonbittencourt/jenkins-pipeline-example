@@ -23,6 +23,12 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prd
 
+  docker-registry:
+    image: registry:2
+    container_name: docker-registry
+    ports:
+      - 5000:5000    
+
   jenkins:
     image: robsonbittencourt/jenkins-with-docker
     container_name: jenkins
