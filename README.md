@@ -14,10 +14,14 @@ Use this project as a base for ideas for your own pipeline.
 
 ### How to use
 
-Having Docker installed, execute the commands below:
+Having Docker and Maven installed, execute the commands below:
 
 ```
-docker pull elgalu/selenium
+git clone git@github.com:robsonbittencourt/jenkins-pipeline-example.git
+
+cd jenkins-pipeline-example
+
+mvn clean package
 
 docker-compose up -d
 ```
@@ -28,30 +32,43 @@ After that some services will be available:
 
 Simple app in DSV stage
 
-**App Products HML** - http://localhost:8085
+**App Products UAT** - http://localhost:8085
 
-Simple app in HML stage
+Simple app in UAT stage
 
 **App Products PRD** - http://localhost:8090
 
 Simple app in PRD stage
 
+**Docker Registry** - http://localhost:5000
+
+A local Docker Registry to publish images
+
 **Jenkins** - http://localhost:8080
 
-Jenkins to run CI and CD jobs
+Jenkins to run CI and CD jobs.
+
+![jenkins](media/jenkins.png)
 
 **Sonarqube** - http://localhost:9000
 
 Sonarqube is a tool that performs static code analysis and points out possible problems. 
 
-**Zalenium** - http://localhost:4444/grid/admin/live?refresh=10
+![sonar](media/sonar.png)
 
-Zalenium is a extension of Selenium Grid to execute Selenium tests in parallel
+**Selenium Grid** - http://localhost:4444/ui/index.html#/
 
+Selenium grid allow run UI Selenium tests in a Docker environment
+
+If you want to see tests running on browser access http://localhost:7900. The password is `secret`.
+
+![tests-running](media/tests-running.gif)
 
 When accessing Jenkins there are two jobs already configured: 
 
 #### products-ci
+Run this job to build, test, analyse code, and running app in DSV environment
+
 - Download the project from Github
 - Run unit-tests
 - Execute Sonarqube analysis
@@ -60,13 +77,20 @@ When accessing Jenkins there are two jobs already configured:
 - Run docker container using DSV tag
 
 #### products-cd
+This job update UAT environment, running UI tests and make deploy on PRD environent
+
 - Download the project from Github
-- Build and deploy Docker image with HML tag
-- Run docker container using HML tag
-- Run interface tests in HML stage
+- Build and deploy Docker image with UAT tag
+- Run docker container using UAT tag
+- Run interface tests in UAT stage
 - Build and deploy Docker image with PRD tag
 - Run docker container using PRD tag
 
-### Jenkins configurations
 
-- Add your Dockerhub user and pass in credential with ID 'registryCredential' in Jenkins
+### Possible issues
+
+If you have permission problem to execute docker commands during Jenkins Pipeline, running command bellow:
+
+```
+sudo chmod 666 /var/run/docker.sock 
+```
