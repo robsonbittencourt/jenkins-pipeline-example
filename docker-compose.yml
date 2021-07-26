@@ -46,21 +46,13 @@ services:
     ports:
       - 9000:9000
       - 9092:9092
-  
-  zalenium:
-    image: dosel/zalenium
-    container_name: zalenium
-    hostname: zalenium
-    tty: true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    environment:  
+      - JAVA_OPTS=-Dsonar.forceAuthentication=false  
+
+  chrome:
+    image: selenium/standalone-chrome:4.0.0-rc-1-prerelease-20210713
+    container_name: chrome
+    shm_size: 2gb
     ports:
-      - 4444:4444
-    command: >
-      start --desiredContainers 1
-            --maxDockerSeleniumContainers 2
-            --screenWidth 1200 --screenHeight 800
-            --timeZone "America/SaoPaulo"
-            --videoRecordingEnabled false
-    environment:
-      - ZALENIUM_EXTRA_JVM_PARAMS=-Dwebdriver.http.factory=apache
+      - "7900:7900"
+      - "4444:4444"

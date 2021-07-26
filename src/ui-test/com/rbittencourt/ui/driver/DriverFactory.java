@@ -16,7 +16,7 @@ public class DriverFactory {
         options.addArguments("disable-infobars");
 
         try {
-            driver = new RemoteWebDriver(new URL("http://zalenium:4444/wd/hub"), options);
+            driver = new RemoteWebDriver(new URL("http://chrome:4444"), options);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
