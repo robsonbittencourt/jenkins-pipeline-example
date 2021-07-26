@@ -30,7 +30,7 @@ services:
       - 5000:5000    
 
   jenkins:
-    image: robsonbittencourt/jenkins-with-docker
+    build: jenkins-as-code-scaffold
     container_name: jenkins
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -38,7 +38,7 @@ services:
       - 8080:8080
       - 50000:50000
     environment:
-      - JAVA_OPTS=-Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';
 
   sonar:
     image: sonarqube

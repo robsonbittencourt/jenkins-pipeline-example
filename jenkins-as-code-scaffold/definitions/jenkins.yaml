@@ -1,0 +1,18 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin"
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: admin
+          password: admin
+
+unclassified:
+  simple-theme-plugin:
+    elements:
+      - cssText:
+          text: |-
+            .pipeline-new-node {
+                display: none;
+            }        
