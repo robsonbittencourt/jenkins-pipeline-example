@@ -41,7 +41,7 @@ services:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';
 
   sonar:
-    image: sonarqube
+    build: sonarqube
     container_name: sonarqube
     ports:
       - 9000:9000
