@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Produtos</title>
+    <title>Products</title>
 
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
@@ -10,31 +10,31 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <h2>Detalhes do produto</h2>
+    <h2>Product detail</h2>
     <div>
         <form class="form-horizontal" th:object="${product}" th:action="@{/product}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{version}"/>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Id do produto:</label>
+                <label class="col-sm-2 control-label">Product id:</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{productId}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Descrição:</label>
+                <label class="col-sm-2 control-label">Description:</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{description}"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">Preço:</label>
+                <label class="col-sm-2 control-label">Price:</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" th:field="*{price}"/>
                 </div>
             </div>
             <div class="row">
-                <button type="submit" class="btn btn-default" id="save-button">Salvar</button>
+                <button type="submit" class="btn btn-default" id="save-button">Save</button>
             </div>
         </form>
     </div>

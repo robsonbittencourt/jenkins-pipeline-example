@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
-    <title>Produtos</title>
+    <title>Products</title>
 
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
@@ -10,22 +10,22 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <h2>Detalhes do produto</h2>
+    <h2>Product detail</h2>
         <div>
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Id do produto:</label>
+                    <label class="col-sm-2 control-label">Product id:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static" th:text="${product.id}" id="view-product-id"></p></div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Descrição:</label>
+                    <label class="col-sm-2 control-label">Description:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static" th:text="${product.description}" id="view-product-description"></p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Preço:</label>
+                    <label class="col-sm-2 control-label">Price:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static" th:text="${product.price}" id="view-product-price"></p>
                     </div>
