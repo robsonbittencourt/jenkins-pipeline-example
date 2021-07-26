@@ -2,13 +2,13 @@ node{
 
   git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example" 
 
-  stage ('Build and Deploy HML image') {
-    sh "docker tag localhost:5000/jenkins-pipeline-example:dsv localhost:5000/jenkins-pipeline-example:hml"
-    sh "docker push localhost:5000/jenkins-pipeline-example:hml"
+  stage ('Build and Deploy UAT image') {
+    sh "docker tag localhost:5000/jenkins-pipeline-example:dsv localhost:5000/jenkins-pipeline-example:uat"
+    sh "docker push localhost:5000/jenkins-pipeline-example:uat"
   }
 
-  stage ('Deploy app in HML') {
-    sh "docker rm -f app-hml &>/dev/null && sleep 1 && docker run --name=app-hml -p 8085:8085 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=hml -d localhost:5000/jenkins-pipeline-example:hml"
+  stage ('Deploy app in UAT') {
+    sh "docker rm -f app-uat &>/dev/null && sleep 1 && docker run --name=app-uat -p 8085:8085 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=uat -d localhost:5000/jenkins-pipeline-example:uat"
   }
 
   stage ('UI Tests') {
@@ -19,7 +19,7 @@ node{
   }
 
   stage ('Build and Deploy PRD image') {
-    sh "docker tag localhost:5000/jenkins-pipeline-example:hml localhost:5000/jenkins-pipeline-example:prd"
+    sh "docker tag localhost:5000/jenkins-pipeline-example:uat localhost:5000/jenkins-pipeline-example:prd"
     sh "docker push localhost:5000/jenkins-pipeline-example:prd"
   }
 

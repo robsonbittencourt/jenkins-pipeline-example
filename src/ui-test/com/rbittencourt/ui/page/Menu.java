@@ -11,12 +11,12 @@ public class Menu {
     }
 
     public ProductListPage goToListPage() {
-        this.driver.get("http://app-hml:8085");
+        this.driver.get("http://app-uat:8085");
         return new ProductListPage(this.driver);
     }
 
     public ProductFormPage goToCreatePage() {
-        this.driver.get("http://app-hml:8085/product/new");
+        this.driver.get("http://app-uat:8085/product/new");
         return new ProductFormPage(this.driver);
     }
 

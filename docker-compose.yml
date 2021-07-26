@@ -8,14 +8,14 @@ services:
     ports:
       - 8081:8081
     
-  app-hml:
+  app-uat:
     build: .
-    image: localhost:5000/jenkins-pipeline-example:hml
-    container_name: app-hml
+    image: localhost:5000/jenkins-pipeline-example:uat
+    container_name: app-uat
     ports:
       - 8085:8085
     environment:
-      - SPRING_PROFILES_ACTIVE=hml
+      - SPRING_PROFILES_ACTIVE=uat
 
   app-prd:
     build: .

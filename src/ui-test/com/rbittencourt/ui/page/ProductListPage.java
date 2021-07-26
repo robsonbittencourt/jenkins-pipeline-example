@@ -15,7 +15,7 @@ public class ProductListPage {
     }
 
     public ProductListPage goTo() {
-        this.driver.get("http://app-hml:8085");
+        this.driver.get("http://app-uat:8085");
         return this;
     }
 
