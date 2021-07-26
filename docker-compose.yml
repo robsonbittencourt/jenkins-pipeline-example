@@ -2,13 +2,15 @@ version: '3.4'
 
 services:
   app-dsv:
-    image: robsonbittencourt/jenkins-pipeline-example:dsv
+    build: .
+    image: localhost:5000/jenkins-pipeline-example:dsv
     container_name: app-dsv
     ports:
       - 8081:8081
     
   app-hml:
-    image: robsonbittencourt/jenkins-pipeline-example:hml
+    build: .
+    image: localhost:5000/jenkins-pipeline-example:hml
     container_name: app-hml
     ports:
       - 8085:8085
@@ -16,7 +18,8 @@ services:
       - SPRING_PROFILES_ACTIVE=hml
 
   app-prd:
-    image: robsonbittencourt/jenkins-pipeline-example:prd
+    build: .
+    image: localhost:5000/jenkins-pipeline-example:prd
     container_name: app-prd
     ports:
       - 8090:8090
@@ -30,7 +33,7 @@ services:
       - 5000:5000    
 
   jenkins:
-    build: jenkins-as-code-scaffold
+    build: custom-dockerfiles/jenkins-as-code-scaffold
     container_name: jenkins
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -41,7 +44,7 @@ services:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';
 
   sonar:
-    build: sonarqube
+    build: custom-dockerfiles/sonarqube
     container_name: sonarqube
     ports:
       - 9000:9000
