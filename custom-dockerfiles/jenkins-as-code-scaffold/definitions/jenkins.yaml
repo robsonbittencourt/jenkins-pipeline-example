@@ -8,11 +8,11 @@ jenkins:
         - id: admin
           password: admin
 
-unclassified:
-  simple-theme-plugin:
+appearance:
+  simpleTheme:
     elements:
       - cssText:
           text: |-
             .pipeline-new-node {
                 display: none;
-            }        
+            }

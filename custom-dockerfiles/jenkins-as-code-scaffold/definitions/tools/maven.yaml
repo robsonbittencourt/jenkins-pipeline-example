@@ -6,4 +6,4 @@ tool:
           - installSource:
               installers:
                 - maven:
-                    id: "3.8.1"
+                    id: "3.8.4"
