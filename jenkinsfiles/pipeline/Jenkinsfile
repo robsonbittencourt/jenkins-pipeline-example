@@ -2,12 +2,12 @@ node{
 
   git branch: "main", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example"
 
-  stage ('Build and Deploy UAT image') {
+  stage ('Build UAT image') {
     sh "docker tag localhost:5000/jenkins-pipeline-example:dsv localhost:5000/jenkins-pipeline-example:uat"
     sh "docker push localhost:5000/jenkins-pipeline-example:uat"
   }
 
-  stage ('Deploy app in UAT') {
+  stage ('Deploy UAT') {
     sh "docker rm -f app-uat &>/dev/null && sleep 1 && docker run --name=app-uat -p 8085:8085 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=uat -d localhost:5000/jenkins-pipeline-example:uat"
   }
 
@@ -18,12 +18,12 @@ node{
     }   
   }
 
-  stage ('Build and Deploy PRD image') {
+  stage ('Build PRD image') {
     sh "docker tag localhost:5000/jenkins-pipeline-example:uat localhost:5000/jenkins-pipeline-example:prd"
     sh "docker push localhost:5000/jenkins-pipeline-example:prd"
   }
 
-  stage ('Deploy app in PRD') {
+  stage ('Deploy PRD') {
     sh "docker rm -f app-prd &>/dev/null && sleep 1 && docker run --name=app-prd -p 8090:8090 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=prd -d localhost:5000/jenkins-pipeline-example:prd"
   }
 

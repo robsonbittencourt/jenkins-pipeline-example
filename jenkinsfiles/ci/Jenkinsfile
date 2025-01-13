@@ -19,12 +19,12 @@ node {
     }
   }
 
-  stage ('Build and Deploy DSV image') {
+  stage ('Build DSV image') {
     sh 'docker build -t localhost:5000/jenkins-pipeline-example:dsv .'
     sh 'docker push localhost:5000/jenkins-pipeline-example:dsv'
   }
 
-  stage ('Deploy app in DSV') {
+  stage ('Deploy DSV') {
     sh 'docker rm -f app-dsv &>/dev/null && sleep 1 && docker run --name=app-dsv -p 8081:8081 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=dsv -d localhost:5000/jenkins-pipeline-example:dsv'
   }
 }
