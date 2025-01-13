@@ -1,32 +1,30 @@
-node{
+node {
+  git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example"
 
-  git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example" 
+  stage ('Build Jar') {
+    withEnv(["JAVA_HOME=${ tool "java-21" }"]) {
+      sh './gradlew clean build -x test'
+    }
+  }
 
   stage('Unit Tests') {
-    withEnv(["JAVA_HOME=${ tool "java-11" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
-        sh "mvn test"
+    withEnv(["JAVA_HOME=${ tool "java-21" }"]) {
+      sh './gradlew test'
     }
   }
 
   stage ('Sonarqube') {
-    withEnv(["JAVA_HOME=${ tool "java-11" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
-        sh "mvn sonar:sonar -Dsonar.host.url=http://sonar:9000"
-    }
-  }
-
-  stage ('Build Jar') {
-    withEnv(["JAVA_HOME=${ tool "java-11" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
-        sh "mvn clean package -Dmaven.test.skip=true"
+    withEnv(["JAVA_HOME=${ tool "java-21" }"]) {
+      sh './gradlew sonar'
     }
   }
 
   stage ('Build and Deploy DSV image') {
-    sh "docker build -t localhost:5000/jenkins-pipeline-example:dsv ."
-    sh "docker push localhost:5000/jenkins-pipeline-example:dsv"
+    sh 'docker build -t localhost:5000/jenkins-pipeline-example:dsv .'
+    sh 'docker push localhost:5000/jenkins-pipeline-example:dsv'
   }
 
   stage ('Deploy app in DSV') {
-    sh "docker rm -f app-dsv &>/dev/null && sleep 1 && docker run --name=app-dsv -p 8081:8081 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=dsv -d localhost:5000/jenkins-pipeline-example:dsv"
+    sh 'docker rm -f app-dsv &>/dev/null && sleep 1 && docker run --name=app-dsv -p 8081:8081 --net jenkins-pipeline-example_default -e SPRING_PROFILES_ACTIVE=dsv -d localhost:5000/jenkins-pipeline-example:dsv'
   }
-  
 }
