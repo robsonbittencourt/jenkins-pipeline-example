@@ -1,9 +1,7 @@
-FROM fabric8/java-alpine-openjdk11-jre:1.8
+FROM amazoncorretto:21-alpine
 
-USER root
+WORKDIR /app
 
-ARG version
+COPY ./build/libs/jenkins-pipeline-example-1.0.0.jar /app/jenkins-pipeline-example-1.0.0.jar
 
-ENV JAVA_APP_JAR=jenkins-pipeline-example.jar
-
-ADD target/$JAVA_APP_JAR /deployments
+CMD ["java", "-jar", "/app/jenkins-pipeline-example-1.0.0.jar"]
