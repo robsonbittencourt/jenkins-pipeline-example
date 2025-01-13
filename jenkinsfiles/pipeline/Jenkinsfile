@@ -1,6 +1,6 @@
 node{
 
-  git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example" 
+  git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example"
 
   stage ('Build and Deploy UAT image') {
     sh "docker tag localhost:5000/jenkins-pipeline-example:dsv localhost:5000/jenkins-pipeline-example:uat"
@@ -12,9 +12,9 @@ node{
   }
 
   stage ('UI Tests') {
-    withEnv(["JAVA_HOME=${ tool "java-11" }", "PATH+MAVEN=${ tool "maven" }/bin:${env.JAVA_HOME}/bin"]) {
+    withEnv(["JAVA_HOME=${ tool "java-21" }"]) {
         sh "sleep 5"
-        sh "mvn verify -Pui-tests"
+        sh './gradlew clean uiTest'
     }   
   }
 
