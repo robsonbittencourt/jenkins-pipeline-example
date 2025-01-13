@@ -6,14 +6,14 @@ jobs:
               scm {
                 git {
                     remote { url 'https://github.com/robsonbittencourt/jenkins-pipeline-example' }
-                    branch '*/master'
+                    branch '*/main'
                 }
               }
               scriptPath 'jenkinsfiles/ci/Jenkinsfile'
           }
         }
       }
-  
+
   - script: >
       pipelineJob('products-cd') {
         definition {
@@ -21,10 +21,10 @@ jobs:
               scm {
                 git {
                     remote { url 'https://github.com/robsonbittencourt/jenkins-pipeline-example' }
-                    branch '*/master'
+                    branch '*/main'
                 }
               }
               scriptPath 'jenkinsfiles/pipeline/Jenkinsfile'
           }
         }
-      }    
+      }

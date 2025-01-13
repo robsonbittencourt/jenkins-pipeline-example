@@ -1,5 +1,5 @@
 node {
-  git branch: "master", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example"
+  git branch: "main", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example"
 
   stage ('Build Jar') {
     withEnv(["JAVA_HOME=${ tool "java-21" }"]) {
