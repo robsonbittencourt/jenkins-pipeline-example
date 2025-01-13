@@ -28,7 +28,7 @@ public class ProductRepositoryIT {
         productRepository.deleteAll();
 
         product = new Product();
-        product.setDescription("Camisa");
+        product.setDescription("Shirt");
         product.setPrice(new BigDecimal("18.95"));
         product.setProductId("1234");
 

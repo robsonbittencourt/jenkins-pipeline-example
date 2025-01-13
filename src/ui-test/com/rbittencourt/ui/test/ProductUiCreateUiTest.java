@@ -33,7 +33,7 @@ public class ProductUiCreateUiTest {
 
     @Test
     public void shouldCreateProduct() {
-        // for is just for demonstration
+        // for is just to demonstration
         for (int i = 0; i < 20; i++) {
             String description = "ball";
 
