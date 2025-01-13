@@ -67,14 +67,14 @@ If you want to see tests running on browser access http://localhost:7900. The pa
 When accessing Jenkins there are two jobs already configured: 
 
 #### products-ci
-Run this job to build, test, analyse code, and running app in DSV environment
+Run this job to build, test, analyse code, and running app in DEV environment
 
 - Download the project from Github
 - Run unit-tests
 - Execute Sonarqube analysis
 - Build jar artifact
-- Build and deploy Docker image with DSV tag
-- Run docker container using DSV tag
+- Build and deploy Docker image with DEV tag
+- Run docker container using DEV tag
 
 #### products-cd
 This job update UAT environment, running UI tests and make deploy on PRD environent

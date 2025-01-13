@@ -3,7 +3,7 @@ node{
   git branch: "main", url: "https://github.com/robsonbittencourt/jenkins-pipeline-example"
 
   stage ('Build UAT image') {
-    sh "docker tag localhost:5000/jenkins-pipeline-example:dsv localhost:5000/jenkins-pipeline-example:uat"
+    sh "docker tag localhost:5000/jenkins-pipeline-example:dev localhost:5000/jenkins-pipeline-example:uat"
     sh "docker push localhost:5000/jenkins-pipeline-example:uat"
   }
 
